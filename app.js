@@ -13,8 +13,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.get("/", (req, res) => {
-    res.render("index.ejs")
+app.get("/recipes", async(req, res) => {
+    numberOfRecipes = 2;
+    const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${numberOfRecipes}&apiKey=${API_KEY}`);
+    const recipes = response.data.recipes;
+    res.render("index.ejs", {recipes})
 })
 
 app.post("/search", async(req, res) => {
@@ -23,6 +26,15 @@ app.post("/search", async(req, res) => {
     const recipes = response.data.results;
     res.render("results.ejs", {recipes});
 })
+
+app.get("/recipe/:id" , async(req, res) => {
+    const {id} = req.params;
+    const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`)
+    const recipe = response.data;
+    res.render("recipe.ejs", {recipe});
+})
+
+
 
 const port =  3000;
 app.listen(port, () => {
