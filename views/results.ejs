@@ -1,27 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cooks companion</title>
+  <title>Recipes</title>
 </head>
-<body> 
-    <div class="container">
-        <h1>Search Results</h1>
-        <ul>
-            <%recipes.forEach(recipe => {%>
-                <li>
-                    <div class="card">
-                        <a href="/recipe/<%=recipe.id%>">
-                            <img src="<%=recipe.image%>" alt="" class="img-fluid card-img top" >
-                            <div class="card-text"><%= recipe.title %></div>
-                        </a>
-                    </div>
-                </li>
-                <%})%>
-        </ul>
-        <a href="/">Home</a> 
-    </div>
+<body>
+  <h1>Recipes</h1>
+  <% if (recipes.length === 0) { %>
+    <p>No recipes found.</p>
+  <% } else { %>
+    <ul>
+      <% recipes.forEach(recipe => { %>
+        <li>
+          <h2><%= recipe.title %></h2>
+          <img src="<%= recipe.image %>" alt="<%= recipe.title %>" />
+          <p>Likes: <%= recipe.likes %></p>
+          <p>Missed Ingredients: <%= recipe.missedIngredientCount %></p>
+          <% if (recipe.substitutes && recipe.substitutes.length > 0) { %>
+            <h3>Substitutes:</h3>
+            <ul>
+              <% recipe.substitutes.forEach(substitute => { %>
+                <li><%= substitute.name %></li>
+              <% }) %>
+            </ul>
+          <% } %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
 </body>
 </html>
+

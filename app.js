@@ -3,7 +3,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const { default: axios } = require("axios");
-const API_KEY = "74e0fd8da1164c0987880559c617e190";
+const API_KEY = "15b30897edae4303a282f1cee8c8257c";
 const app = express();
 
 app.set("view engine", "ejs");
@@ -20,12 +20,23 @@ app.get("/recipes", async(req, res) => {
     res.render("index.ejs", {recipes})
 })
 
+
+
 app.post("/search", async(req, res) => {
-    const {query} = req.body;
-    const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?${query}&apiKey=${API_KEY}`);
-    const recipes = response.data.results;
+    const number = 2;
+    const {ingredients} = req.body;
+    const response = await axios.get(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=${number}&apiKey=${API_KEY}`);
+    const recipes = response.data;
+    // Get similar ingredients
     res.render("results.ejs", {recipes});
 })
+
+// app.post("/search", async(req, res) => {
+//     const {query} = req.body;
+//     const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?${query}&apiKey=${API_KEY}`);
+//     const recipes = response.data.results;
+//     res.render("results.ejs", {recipes});
+// })
 
 app.get("/recipe/:id" , async(req, res) => {
     const {id} = req.params;
