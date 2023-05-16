@@ -17,6 +17,12 @@ app.get("/", (req, res) => {
     res.render("index.ejs")
 })
 
+app.post("/search", async(req, res) => {
+    const {query} = req.body;
+    const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?${query}&apiKey=${API_KEY}`);
+    const recipes = response.data.results;
+    res.render("results.ejs", {recipes});
+})
 
 const port =  3000;
 app.listen(port, () => {
