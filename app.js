@@ -29,9 +29,13 @@ app.post("/search", async(req, res) => {
 
 app.get("/recipe/:id" , async(req, res) => {
     const {id} = req.params;
-    const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`)
+    const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
     const recipe = response.data;
-    res.render("recipe.ejs", {recipe});
+
+    // Get similar recipes based on the ID
+    const simRes = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar?apiKey=${API_KEY}`);
+    const simRec = simRes.data;
+    res.render("recipe.ejs", {recipe, simRec});
 })
 
 
