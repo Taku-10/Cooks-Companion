@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Recipes</title>
-</head>
-<body>
+<% layout("layout/boilerplate") %>
   <h1>Recipes</h1>
   <% if (recipes.length === 0) { %>
     <p>No recipes found.</p>
@@ -27,6 +22,5 @@
       <% }) %>
     </ul>
   <% } %>
-</body>
-</html>
+
 
