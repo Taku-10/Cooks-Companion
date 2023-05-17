@@ -7,7 +7,9 @@
       <% recipes.forEach(recipe => { %>
         <li>
           <h2><%= recipe.title %></h2>
-          <img src="<%= recipe.image %>" alt="<%= recipe.title %>" />
+          <a href="/recipe/<%= recipe.id %>">
+            <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+          </a>
           <p>Likes: <%= recipe.likes %></p>
           <p>Missed Ingredients: <%= recipe.missedIngredientCount %></p>
           <% if (recipe.substitutes && recipe.substitutes.length > 0) { %>

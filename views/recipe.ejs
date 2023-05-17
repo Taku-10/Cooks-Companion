@@ -1,7 +1,9 @@
 <% layout("layout/boilerplate") %>
         <h1 class=""><%= recipe.title %></h1>
-        <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
-        <h2 class="text-center">Ingredients</h2>
+        <a href="/recipe/<%= recipe.id %>">
+            <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+        </a>
+        <h2 class="">Ingredients</h2>
         <ul>
             <% recipe.extendedIngredients.forEach(ingredient => {%>
                 <li><%= ingredient.original %></li>

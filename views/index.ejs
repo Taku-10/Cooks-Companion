@@ -1,7 +1,7 @@
 <% layout("layout/boilerplate") %>
         <h1 class="text-center">Recipe search</h1>
         <form action="/search" method="post">
-            <input class="form-control" type="text" name="ingredients" id="ingredients" placeholder="Search by ingredients you have">
+            <input class="form-control" type="text" name="ingredients" id="ingredients" placeholder="Search by ingredients separated by comma's">
             <div class="text-center mb-3 mt-3">
                 <button type="submit" class="btn btn-primary">Search Recipe</button>
             </div>
@@ -11,7 +11,9 @@
         <% recipes.forEach((recipe) => { %>
             <li>
                 <h2><%= recipe.title %></h2>
-                <img src="<%= recipe.image %>" alt="<%= recipe.title %>" width="200">
+                <a href="/recipe/<%= recipe.id %>">
+                    <img src="<%= recipe.image %>" alt="<%= recipe.title %>" width="200">
+                </a>
                 <p><%= recipe.summary %></p>
             </li>
         <% }) %>
