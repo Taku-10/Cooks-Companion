@@ -65,13 +65,31 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/user/register", (req, res) => {
+app.get("/register", (req, res) => {
   res.render("register")
 })
 
-app.get("/user/login", (req, res) => {
+app.get("/login", (req, res) => {
   res.render("login.ejs");
 })
+
+/*This route will be used to register a user thus submitting the user's details to the database*/
+app.post("/register", async (req, res, next) => {
+  const { email, username, password } = req.body;
+  const user = new User({ email, username });
+  const registeredUser = await User.register(user, password);
+  
+  req.logIn(registeredUser, (err) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/login");
+    } else {
+      req.flash("success", "Welcome to Cooks Companion");
+      res.redirect("/recipes");
+    }
+  });
+});
+
 
 app.get("/recipes", async(req, res) => {
     numberOfRecipes = 5;
