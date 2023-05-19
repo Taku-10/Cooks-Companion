@@ -8,14 +8,8 @@ const mongoose = require("mongoose");
 const User = require("./models/user");
 const passport = require("passport");
 const localStrategy = require("passport-local");
+const session = require("express-session");
 const app = express();
-
-app.set("view engine", "ejs");
-app.engine("ejs", ejsMate);
-app.set("views", path.join(__dirname, "/views"));
-app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
-app.use(express.static(path.join(__dirname, "public")));
 
 const dbURL = "mongodb://127.0.0.1:27017/Recipes";
 
@@ -30,6 +24,31 @@ mongoose.connect(dbURL, {
     console.log("Mongo connection error");
     console.log(err);
   });
+
+app.set("view engine", "ejs");
+app.engine("ejs", ejsMate);
+app.set("views", path.join(__dirname, "/views"));
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, "public")));
+
+
+const secret =  "thisisnottheactualsecret"
+
+app.use(session({
+  name: "session",
+  secret,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    // secure: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  }
+}));
+
+
 
 app.use(passport.initialize());
 app.use(passport.session());
