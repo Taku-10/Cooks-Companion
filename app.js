@@ -4,6 +4,8 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const { default: axios } = require("axios");
 const API_KEY = "15b30897edae4303a282f1cee8c8257c";
+const mongoose = require("mongoose");
+const User = require("./models/user");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -26,6 +28,14 @@ mongoose.connect(dbURL, {
     console.log("Mongo connection error");
     console.log(err);
   });
+
+app.get("/user/register", (req, res) => {
+  res.render("register")
+})
+
+app.get("/user/login", (req, res) => {
+  res.render("login.ejs");
+})
 
 app.get("/recipes", async(req, res) => {
     numberOfRecipes = 5;
@@ -61,10 +71,20 @@ app.get("/recipe/:id" , async(req, res) => {
     res.render("recipe.ejs", {recipe, simRec});
 })
 
-// USELESS ROUTES
-app.get("/meal-planner", async(req, res) => {
-    res.render("mealplanner.ejs");
-})
+/*This route will be used to register a user thus submitting the user's details to the database*/
+router.post("/register", catchAsync(async (req, res, next) => {
+  const { username, email, password } = req.body;
+  const user = new User({ username, email });
+  const registeredUser = await User.register(user, password);
+  req.logIn(registeredUser, (err) => {
+    if (err) {
+      console.log(err);
+      res.redirect("/login");
+    } else {
+      res.redirect("/recipes");
+    }
+  });
+}));
 
 const port =  3000;
 app.listen(port, () => {
