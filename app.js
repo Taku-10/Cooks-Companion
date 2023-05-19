@@ -6,6 +6,8 @@ const { default: axios } = require("axios");
 const API_KEY = "15b30897edae4303a282f1cee8c8257c";
 const mongoose = require("mongoose");
 const User = require("./models/user");
+const passport = require("passport");
+const localStrategy = require("passport-local");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -28,6 +30,13 @@ mongoose.connect(dbURL, {
     console.log("Mongo connection error");
     console.log(err);
   });
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.get("/user/register", (req, res) => {
   res.render("register")
@@ -71,20 +80,6 @@ app.get("/recipe/:id" , async(req, res) => {
     res.render("recipe.ejs", {recipe, simRec});
 })
 
-/*This route will be used to register a user thus submitting the user's details to the database*/
-router.post("/register", catchAsync(async (req, res, next) => {
-  const { username, email, password } = req.body;
-  const user = new User({ username, email });
-  const registeredUser = await User.register(user, password);
-  req.logIn(registeredUser, (err) => {
-    if (err) {
-      console.log(err);
-      res.redirect("/login");
-    } else {
-      res.redirect("/recipes");
-    }
-  });
-}));
 
 const port =  3000;
 app.listen(port, () => {
