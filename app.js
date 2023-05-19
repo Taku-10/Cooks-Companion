@@ -105,6 +105,15 @@ app.post("/register", async (req, res, next) => {
   }
 );
 
+/*This route will be used to log out the user*/
+app.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    req.flash("success", "Goodbye!");
+    res.redirect("/recipes");
+  });
+});
+
 app.get("/recipes", async(req, res) => {
     numberOfRecipes = 5;
     const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${numberOfRecipes}&apiKey=${API_KEY}`);
