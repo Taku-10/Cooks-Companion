@@ -90,6 +90,20 @@ app.post("/register", async (req, res, next) => {
   });
 });
 
+/*This route will be used to log in the user by checking the provided details on the log in form correspond to the
+ ones in the database*/
+ app.post(
+  "/login",
+  passport.authenticate("local", {
+    failureFlash: true,
+    failureRedirect: "/login",
+  }),
+  (req, res) => {
+    req.flash("success", "Welcome back to Cooks Companion");
+    const redirectUrl = res.locals.returnTo || "/recipes";
+    res.redirect(redirectUrl);
+  }
+);
 
 app.get("/recipes", async(req, res) => {
     numberOfRecipes = 5;
