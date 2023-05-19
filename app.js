@@ -13,8 +13,22 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
+const dbURL = "mongodb://127.0.0.1:27017/Recipes";
+
+mongoose.connect(dbURL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => {
+    console.log("Mongo Connection open");
+  })
+  .catch((err) => {
+    console.log("Mongo connection error");
+    console.log(err);
+  });
+
 app.get("/recipes", async(req, res) => {
-    numberOfRecipes = 1;
+    numberOfRecipes = 5;
     const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${numberOfRecipes}&apiKey=${API_KEY}`);
     const recipes = response.data.recipes;
     res.render("index.ejs", {recipes})
@@ -49,7 +63,7 @@ app.get("/recipe/:id" , async(req, res) => {
 
 // USELESS ROUTES
 app.get("/meal-planner", async(req, res) => {
-    res.send("HOLD TIGHT, COMING SOON!");
+    res.render("mealplanner.ejs");
 })
 
 const port =  3000;
