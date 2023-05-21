@@ -11,6 +11,7 @@ const passport = require("passport");
 const localStrategy = require("passport-local");
 const session = require("express-session");
 const flash = require("connect-flash");
+const {isLoggedIn, storeReturnTo} = require("./middleware/authenticate.js")
 const app = express();
 
 const dbURL = "mongodb://127.0.0.1:27017/Recipes";
@@ -99,6 +100,7 @@ app.post("/register", async (req, res, next) => {
  ones in the database*/
  app.post(
   "/login",
+  storeReturnTo,
   passport.authenticate("local", {
     failureFlash: true,
     failureRedirect: "/login",
@@ -154,7 +156,7 @@ app.get("/recipe/:id" , async(req, res) => {
 })
 
 
-app.post("/recipes/favorites/add", async (req, res) => {
+app.post("/recipes/favorites/add", isLoggedIn, async (req, res) => {
   try {
     // Retrieve the currently logged-in user's ID from the session data
     const userId = req.user._id;
@@ -180,7 +182,7 @@ app.post("/recipes/favorites/add", async (req, res) => {
 });
 
 
-app.get("/recipes/favorites", async (req, res) => {
+app.get("/recipes/favorites", isLoggedIn, async (req, res) => {
   try {
     // Retrieve the currently logged-in user's ID from the session data
     const userId = req.user._id;
@@ -212,7 +214,7 @@ app.get("/recipes/favorites", async (req, res) => {
 });
 
 // Define the /favorites/remove route to remove a recipe from favorites
-app.post("/recipes/favorites/remove", async (req, res) => {
+app.post("/recipes/favorites/remove", isLoggedIn, async (req, res) => {
   try {
     // Retrieve the currently logged-in user's ID from the session data
     const userId = req.user._id;
