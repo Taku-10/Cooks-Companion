@@ -18,7 +18,11 @@
       <p class="recipe-details">Ready in <%= recipe.readyInMinutes %> minutes</p>
       <p class="recipe-details">Servings: <%= recipe.servings %></p>
     </li>
-    <button class="btn btn-success">Add to favourites</button>
+    <form action="/recipes/favorites/add" method="post">
+      <input type="hidden" name="recipeId" value="<%= recipe.id %>">
+      <button type="submit" class="btn btn-success">Add to favorites</button>
+    </form>
+    
     <% }) %>
   </ul>
 </div>

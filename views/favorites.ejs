@@ -1,0 +1,14 @@
+<% layout("layout/boilerplate") %>
+  <h1>Favorites</h1>
+  <% if (favorites.length > 0) { %>
+    <% favorites.forEach((favorite) => { %>
+      <div>
+        <h3><%= favorite.title %></h3>
+        <img src="<%= favorite.image %>" alt="<%= favorite.title %>" />
+      </div>
+    <% }); %>
+  <% } else { %>
+    <p>No favorites added yet.</p>
+  <% } %>
+
+

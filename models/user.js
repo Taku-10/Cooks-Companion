@@ -15,6 +15,8 @@ const userSchema = new Schema({
         unique: true
     },
 
+    favorites: [String]
+
 })
 
 userSchema.plugin(passportLocalMongoose);

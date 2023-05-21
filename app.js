@@ -5,7 +5,8 @@ const ejsMate = require("ejs-mate");
 const { default: axios } = require("axios");
 const API_KEY = "15b30897edae4303a282f1cee8c8257c";
 const mongoose = require("mongoose");
-const User = require("./models/user");
+const User = require("./models/user.js");
+const Recipe = require("./models/recipe.js");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const session = require("express-session");
@@ -147,6 +148,34 @@ app.get("/recipe/:id" , async(req, res) => {
     const simRec = simRes.data;
     res.render("recipe.ejs", {recipe, simRec});
 })
+
+// Define the /favorites/add route to add a recipe to favorites
+app.post("/recipes/favorites/add", async (req, res) => {
+  try {
+    // Retrieve the currently logged-in user's ID from the session data
+    const userId = req.user._id;
+
+    // Get the recipe ID from the request body
+    const recipeId = req.body.recipeId;
+
+    // Fetch the user document from the users collection in MongoDB
+    const user = await User.findById(userId);
+
+    // Add the recipe ID to the user's favorites array
+    user.favorites.push(recipeId);
+
+    // Save the updated user document
+    await user.save();
+
+    req.flash("success", "Recipe added to favorites");
+    res.redirect("/recipes");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
 
 
 const port =  3000;
