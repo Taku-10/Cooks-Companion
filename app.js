@@ -149,7 +149,7 @@ app.get("/recipe/:id" , async(req, res) => {
     res.render("recipe.ejs", {recipe, simRec});
 })
 
-// Define the /favorites/add route to add a recipe to favorites
+
 app.post("/recipes/favorites/add", async (req, res) => {
   try {
     // Retrieve the currently logged-in user's ID from the session data
@@ -176,6 +176,37 @@ app.post("/recipes/favorites/add", async (req, res) => {
 });
 
 
+app.get("/recipes/favorites", async (req, res) => {
+  try {
+    // Retrieve the currently logged-in user's ID from the session data
+    const userId = req.user._id;
+
+    
+    const user = await User.findById(userId);
+
+    // Make API calls to retrieve recipe details for each favorite
+    const favoritesData = await Promise.all(
+      user.favorites.map(async (favoriteId) => {
+        // Make an API call to get recipe details using the favoriteId
+        const response = await axios.get(
+          `https://api.spoonacular.com/recipes/${favoriteId}/information?apiKey=${API_KEY}`,
+         
+        );
+        
+        // Extract the necessary recipe details from the response
+        const { title, image} = response.data;
+
+        return { title, image };
+      })
+    );
+
+    // Render the favorites.ejs template and pass the favorites data to it
+    res.render("favorites", { favorites: favoritesData });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 
 const port =  3000;
