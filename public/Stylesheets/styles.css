@@ -7,6 +7,12 @@ body {
   color: #333333; 
 }
 
+.recipe-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
 
 header {
   background-color: #9CCB9A;

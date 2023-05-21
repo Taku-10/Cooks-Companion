@@ -9,7 +9,7 @@
   <h1 class="popular-recipes-heading mt-4">Popular Recipes</h1>
   <div class="row">
     <% recipes.forEach(recipe => { %>
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card mb-4">
         <a href="recipe/<%=recipe.id %>">
           <div class="position-relative">
@@ -23,7 +23,7 @@
           </div>
         </a>
         <div class="card-body">
-          <h5 class="card-title"><%= recipe.title %></h5>
+          <h5 class="card-title recipe-title"><%= recipe.title %></h5>
           <p class="card-text">Ready in <%= recipe.readyInMinutes %> minutes</p>
           <p class="card-text">Servings: <%= recipe.servings %></p>
         </div>
