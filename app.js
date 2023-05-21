@@ -3,7 +3,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const { default: axios } = require("axios");
-const API_KEY = "ed46d11d4b8e426599cfdda08559fb14";
+const API_KEY = "96a31e209aec457a8c806b9476f1c59e";
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
 const Recipe = require("./models/recipe.js");
@@ -197,9 +197,9 @@ app.get("/recipes/favorites", async (req, res) => {
         );
         
         // Extract the necessary recipe details from the response
-        const { title, image, id } = response.data;
+        const { title, image, id, readyInMinutes, servings} = response.data;
 
-        return { title, image, id };
+        return { title, image, id, readyInMinutes, servings};
       })
     );
 
