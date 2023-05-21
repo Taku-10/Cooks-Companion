@@ -68,11 +68,11 @@ header {
   cursor: pointer;
   outline: none;
   transition: color 0.3s;
-  font-size: 25px; /* Adjust the font-size to your desired size */
+  font-size: 25px; 
 }
 
 .favorite-button:hover {
-  color: #ff0000; /* Change to your desired color */
+  color: #ff0000; 
 }
 
 .footer-body {
