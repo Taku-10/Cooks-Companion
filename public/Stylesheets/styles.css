@@ -14,34 +14,24 @@ header {
   color: #fff;
 }
 
-
-.hero {
-  text-align: center;
-  padding: 40px 0;
+.favorite-form {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-.cta-btn {
-  display: inline-block;
-  background-color: #9CCB9A;
-  color: #fff;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
+.favorite-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  transition: color 0.3s;
+  font-size: 25px; /* Adjust the font-size to your desired size */
 }
 
-.featured-recipes,
-.recipe-categories,
-.recipe-of-the-day,
-.top-rated-recipes,
-.cta-section {
-  padding: 40px 0;
-}
-
-footer {
-  background-color: #9CCB9A;
-  padding: 20px;
-  color: #fff;
-  text-align: center;
+.favorite-button:hover {
+  color: #ff0000; /* Change to your desired color */
 }
 
 
