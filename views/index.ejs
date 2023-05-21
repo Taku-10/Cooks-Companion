@@ -2,33 +2,31 @@
 <div class="container">
   <h1 class="text-center">Recipe Search</h1>
   <form class="search-form" action="/search" method="post">
-    <input class="form-control" type="text" name="ingredients" id="ingredients" placeholder="Search by ingredients separated by commas">
-    <div class="text-center mt-3">
-      <button type="submit" class="btn btn-primary">Search Recipe</button>
+    <div class="input-group">
+      <input class="form-control" type="text" name="ingredients" id="ingredients" placeholder="Search by ingredients separated by commas">
+      <button type="submit" class="btn btn-success">Search</button>
     </div>
   </form>
-  <h1 class="popular-recipes-heading">Popular Recipes</h1>
-  <ul class="popular-recipes-list">
+  <h1 class="popular-recipes-heading mt-4">Popular Recipes</h1>
+  <div class="row">
     <% recipes.forEach(recipe => { %>
-    <li class="recipe-item">
-      <h2 class="recipe-title"><%= recipe.title %></h2>
-      <a href="/recipe/<%=recipe.id %>">
-        <img class="recipe-image" src="<%= recipe.image %>" alt="<%= recipe.title %>">
-      </a>
-      <p class="recipe-details">Ready in <%= recipe.readyInMinutes %> minutes</p>
-      <p class="recipe-details">Servings: <%= recipe.servings %></p>
-    </li>
-    <form action="/recipes/favorites/add" method="post">
-      <input type="hidden" name="recipeId" value="<%= recipe.id %>">
-      <button type="submit" class="btn btn-success">Add to favorites</button>
-    </form>
-    
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <img class="card-img-top" src="<%= recipe.image %>" alt="<%= recipe.title %>">
+        <div class="card-body">
+          <h5 class="card-title"><%= recipe.title %></h5>
+          <p class="card-text">Ready in <%= recipe.readyInMinutes %> minutes</p>
+          <p class="card-text">Servings: <%= recipe.servings %></p>
+          <form action="/recipes/favorites/add" method="post">
+            <input type="hidden" name="recipeId" value="<%= recipe.id %>">
+            <button type="submit" class="btn btn-success">Add to favorites</button>
+          </form>
+        </div>
+      </div>
+    </div>
     <% }) %>
-  </ul>
+  </div>
 </div>
-
-  
-
 
 
 
