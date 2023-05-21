@@ -1,6 +1,16 @@
 body {
-  background-color: #2F4F4F;
-  color: #FFFFFF; 
+  background-color: #9CCB9A;
+  color: #333333; 
 }
+
+bg-dark-green {
+  background-color: #abff4f;
+}
+
+.navbar-nav .nav-link {
+  color: #333333; 
+}
+
+
 
 
