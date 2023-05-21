@@ -75,6 +75,25 @@ header {
   color: #ff0000; /* Change to your desired color */
 }
 
+.footer-body {
+  position: relative;
+  max-height: 100vh;
+  margin: 0;
+  padding-bottom: 1rem; 
+}
 
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 35; 
+  background-color: #7DB484;;
+  color: #333333;
+  text-align: center;
+  padding: 10px;
+}
 
-
+.footer-link {
+color: #333333;
+text-decoration: underline;
+}
