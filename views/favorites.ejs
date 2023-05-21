@@ -6,6 +6,10 @@
         <h3><%= favorite.title %></h3>
         <img src="<%= favorite.image %>" alt="<%= favorite.title %>" />
       </div>
+      <form action="/recipes/favorites/remove" method="post">
+        <input type="hidden" name="recipeId" value="<%= favorite.id %>">
+        <button type="submit" class="btn btn-success">Remove recipe</button>
+      </form>
     <% }); %>
   <% } else { %>
     <p>No favorites added yet.</p>

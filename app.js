@@ -181,7 +181,6 @@ app.get("/recipes/favorites", async (req, res) => {
     // Retrieve the currently logged-in user's ID from the session data
     const userId = req.user._id;
 
-    
     const user = await User.findById(userId);
 
     // Make API calls to retrieve recipe details for each favorite
@@ -194,14 +193,42 @@ app.get("/recipes/favorites", async (req, res) => {
         );
         
         // Extract the necessary recipe details from the response
-        const { title, image} = response.data;
+        const { title, image, id } = response.data;
 
-        return { title, image };
+        return { title, image, id };
       })
     );
 
     // Render the favorites.ejs template and pass the favorites data to it
     res.render("favorites", { favorites: favoritesData });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Define the /favorites/remove route to remove a recipe from favorites
+app.post("/recipes/favorites/remove", async (req, res) => {
+  try {
+    // Retrieve the currently logged-in user's ID from the session data
+    const userId = req.user._id;
+
+    // Get the recipe ID from the request body
+    const recipeId = req.body.recipeId;
+
+    // Fetch the user document from the users collection in MongoDB
+    const user = await User.findById(userId);
+
+    // Remove the recipe ID from the user's favorites array
+    const index = user.favorites.indexOf(recipeId);
+    if (index > -1) {
+      user.favorites.splice(index, 1);
+    }
+
+    // Save the updated user document
+    await user.save();
+    req.flash("success", "Recipe removed")
+    res.redirect("/recipes");
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
