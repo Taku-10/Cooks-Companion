@@ -1,3 +1,7 @@
+html {
+    color: #333333; 
+}
+
 .FormsContainer {
     max-width: 400px;
     margin: 0 auto;
@@ -7,7 +11,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
   }
-  
+
   .logo {
     margin-bottom: 20px;
   }
@@ -15,10 +19,13 @@
   h2 {
     margin-bottom: 20px;
     font-size: 24px;
-    color: #333333;
   }
   
   form {
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
     margin-bottom: 20px;
   }
   
@@ -29,21 +36,12 @@
   }
   
   input[type="text"],
+  input[type="email"],
   input[type="password"] {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
-  
-  .forgot-password {
-    margin-top: 10px;
-    text-align: left;
-  }
-  
-  .forgot-password a {
-    color: #666666;
-    font-size: 14px;
   }
   
   button[type="submit"] {
@@ -55,12 +53,4 @@
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
-  }
-  
-  .links {
-    font-size: 14px;
-  }
-  
-  .links a {
-    color: #666666;
   }

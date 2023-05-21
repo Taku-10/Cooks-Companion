@@ -1,27 +1,27 @@
-<!DOCTYPE html>
-<html>
+<% layout("layout/boilerplate") %>
 <head>
-  <title>User Registration</title>
-  <link rel="stylesheet" type="text/css" href="Stylesheets/register.css">
+  <link rel="stylesheet" href="./Stylesheets/registration.css">
 </head>
-<body>
-  <div class="container">
-    <h2>User Registration</h2>
+<div class="text-center">
+  <div class="logo">
+    <img src="./Images/cookslight.jpg" alt="Recipe Finder Logo" width="150">
+  </div>
+</div>
+  <div class="FormsContainer">
+    <h2>Create account</h2>
     <form action="/register" method="POST">
       <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required placeholder="Enter your username">
       </div>
       <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email address">
       </div>
       <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="Enter your password">
       </div>
-      <button type="submit">Register</button>
+      <button type="submit" class="btn btn-success">Register</button>
     </form>
   </div>
-</body>
-</html>
