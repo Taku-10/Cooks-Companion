@@ -11,9 +11,10 @@
     <% recipes.forEach(recipe => { %>
     <div class="col-md-3">
       <div class="card mb-4">
-        <a href="recipe/<%=recipe.id %>">
           <div class="position-relative">
-            <img class="card-img-top" src="<%= recipe.image %>" alt="<%= recipe.title %>">
+            <a href="recipe/<%=recipe.id %>">
+              <img class="card-img-top" src="<%= recipe.image %>" alt="<%= recipe.title %>">
+            </a>
             <form action="/recipes/favorites/add" method="post" class="favorite-form">
               <input type="hidden" name="recipeId" value="<%= recipe.id %>">
               <button type="submit" class="favorite-button">
@@ -21,7 +22,6 @@
               </button>
             </form>
           </div>
-        </a>
         <div class="card-body">
           <h5 class="card-title recipe-title"><%= recipe.title %></h5>
           <p class="card-text">Ready in <%= recipe.readyInMinutes %> minutes</p>

@@ -6,11 +6,21 @@
   <% } else { %>
     <div class="row">
       <% recipes.forEach(recipe => { %>
-      <div class="col-md-4 mb-4">
+      <div class="col-md-3 mb-4">
         <div class="card">
-          <img class="card-img-top" src="<%= recipe.image %>" alt="<%= recipe.title %>">
+          <div class="position-relative">
+            <a href="recipe/<%=recipe.id %>">
+              <img class="card-img-top" src="<%= recipe.image %>" alt="<%= recipe.title %>">
+            </a>
+            <form action="/recipes/favorites/add" method="post" class="favorite-form">
+              <input type="hidden" name="recipeId" value="<%= recipe.id %>">
+              <button type="submit" class="favorite-button">
+                <i class="fa fa-heart"></i>
+              </button>
+            </form>
+          </div>
           <div class="card-body">
-            <h5 class="card-title"><%= recipe.title %></h5>
+            <h5 class="card-title recipe-title"><%= recipe.title %></h5>
             <p class="card-text">Likes: <%= recipe.likes %></p>
             <p class="card-text">Missed Ingredients: <%= recipe.missedIngredientCount %></p>
             <% if (recipe.substitutes && recipe.substitutes.length > 0) { %>
@@ -21,8 +31,7 @@
                 <% }) %>
               </ul>
             <% } %>
-            <a href="/recipe/<%= recipe.id %>" class="btn btn-primary">View Recipe</a>
-          </div>
+          </div>  
         </div>
       </div>
       <% }) %>
