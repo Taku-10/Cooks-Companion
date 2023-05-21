@@ -1,28 +1,33 @@
 <% layout("layout/boilerplate") %>
-  <h1>Recipes</h1>
+<div class="container">
+  <h1 class="text-center">Recipes</h1>
   <% if (recipes.length === 0) { %>
-    <p>No recipes found.</p>
+    <p class="text-center">No recipes found.</p>
   <% } else { %>
-    <ul>
+    <div class="row">
       <% recipes.forEach(recipe => { %>
-        <li>
-          <h2><%= recipe.title %></h2>
-          <a href="/recipe/<%= recipe.id %>">
-            <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
-          </a>
-          <p>Likes: <%= recipe.likes %></p>
-          <p>Missed Ingredients: <%= recipe.missedIngredientCount %></p>
-          <% if (recipe.substitutes && recipe.substitutes.length > 0) { %>
-            <h3>Substitutes:</h3>
-            <ul>
-              <% recipe.substitutes.forEach(substitute => { %>
-                <li><%= substitute.name %></li>
-              <% }) %>
-            </ul>
-          <% } %>
-        </li>
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img class="card-img-top" src="<%= recipe.image %>" alt="<%= recipe.title %>">
+          <div class="card-body">
+            <h5 class="card-title"><%= recipe.title %></h5>
+            <p class="card-text">Likes: <%= recipe.likes %></p>
+            <p class="card-text">Missed Ingredients: <%= recipe.missedIngredientCount %></p>
+            <% if (recipe.substitutes && recipe.substitutes.length > 0) { %>
+              <h6 class="card-subtitle mb-2 text-muted">Substitutes:</h6>
+              <ul class="list-unstyled">
+                <% recipe.substitutes.forEach(substitute => { %>
+                  <li><%= substitute.name %></li>
+                <% }) %>
+              </ul>
+            <% } %>
+            <a href="/recipe/<%= recipe.id %>" class="btn btn-primary">View Recipe</a>
+          </div>
+        </div>
+      </div>
       <% }) %>
-    </ul>
+    </div>
   <% } %>
+</div>
 
 
