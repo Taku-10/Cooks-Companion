@@ -239,6 +239,9 @@ app.post("/recipes/favorites/remove", async (req, res) => {
   }
 });
 
+app.get("/about-us", (req, res) => {
+  res.render("about");
+})
 
 const port =  3000;
 app.listen(port, () => {
