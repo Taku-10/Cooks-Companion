@@ -1,50 +1,57 @@
 <% layout("layout/boilerplate") %>
 <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <link rel="stylesheet" href="/Stylesheets/home.css">
 </head>
-    <section class="hero text-center">
-      <h2>Welcome to Cooks Companion!</h2>
-      <p class="slogan">Cooking made for companionship</p>
-      <p>Discover delicious recipes for every occasion.</p>
-      <a href="/recipes" class="cta-btn">View Recipes</a>
-    </section>
 
-    <section class="featured-recipes">
-      <h2>Featured Recipes</h2>
-      <!-- Add your featured recipe cards here -->
-    </section>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="">
+      <h1 class="animate__animated animate__fadeInDown">Welcome to Cooks Companion!</h1>
+      <p class="slogan animate__animated animate__fadeInUp">Cooking made for companionship</p>
+      <p class="animate__animated animate__fadeIn">Discover delicious recipes for every occasion.</p>
+      <a href="/recipes" class="cta-btn view-recipes animate__animated animate__fadeIn">View Recipes</a>
 
-    <section class="recipe-categories">
-      <h2>Recipe Categories</h2>
-      <div class="container">
-        <div class="recipe-cards">
-          <div class="recipe-card">
-            <img src="https://images.unsplash.com/photo-1607098665874-fd193397547b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YXBwZXRpemVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60" alt="Category 1">
-            <h3>Appetizers</h3>
-            <p>Indulge in irresistible appetizers, perfect for any occasion. From savory bites to tantalizing dips, find delectable recipes to kick-start your meal or impress your guests with style.</p>
-            <a href="" class="btn-primary">View Recipes</a>
+    </div>
+  </section>
+  
+  <!-- Features Section -->
+  <section class="features py-5">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card mb-4 animate__animated animate__fadeInLeft">
+            <div class="card-body text-center">
+              <i class="fa fa-cutlery fa-4x mb-3"></i>
+              <h4 class="card-title">Explore a Variety of Recipes</h4>
+              <p class="card-text">Discover a wide range of recipes from different cuisines and categories.</p>
+            </div>
           </div>
-          <div class="recipe-card">
-            <img src="https://images.unsplash.com/photo-1625862577363-1c5e5a0f0e43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bWFpbiUyMGNvdXJzZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="Category 2">
-            <h3>Main course</h3>
-            <p>Elevate your dining experience with delightful main course dishes. Explore our diverse selection of flavors, from succulent meats to flavorful vegetarian options. Impress your taste buds with our tantalizing recipes</p>
-            <a href="/recipes/category2" class="btn-primary">View Recipes</a>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4 animate__animated animate__fadeInDown">
+            <div class="card-body text-center">
+              <i class="fa fa-search fa-4x mb-3"></i>
+              <h4 class="card-title">Effortless Recipe Search</h4>
+              <p class="card-text">Quickly find the perfect recipe using our powerful search feature.</p>
+            </div>
           </div>
-          <div class="recipe-card">
-            <img src="https://images.unsplash.com/photo-1587314168485-3236d6710814?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGVzc2VydHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60" alt="Category 3">
-            <h3>Dessert</h3>
-            <p>Satisfy your sweet tooth with our tempting dessert recipes. From decadent cakes to delightful cookies, discover a collection of irresistible treats that will delight your taste buds. </p>
-            <a href="/recipes/category3" class="btn-primary">View Recipes</a>
+        </div>
+        <div class="col-md-4">
+          <div class="card mb-4 animate__animated animate__fadeInRight ">
+            <div class="card-body text-center">
+              <i class="fa fa-clock fa-4x mb-3"></i>
+              <h4 class="card-title">Save Time in the Kitchen</h4>
+              <p class="card-text">Get access to time-saving recipes that fit your busy schedule.</p>
+            </div>
           </div>
         </div>
       </div>
-    </section>
-    
-
-    <section class="cta-section">
-      <h2>Ready to Explore?</h2>
-      <p>Sign up to unlock all the recipes!</p>
-      <a href="/register" class="cta-btn">Sign Up</a>
-    </section>
-
+  </section>
   
+  
+  <!-- Call to Action Section -->
+  <section class="hero">
+      <h2 class="animate__animated animate__fadeIn">Ready to Explore?</h2>
+      <p class="animate__animated animate__fadeIn slogan">Sign up and unlock all the recipes!</p>
+      <a href="/register" class="cta-btn view-recipes animate__animated animate__fadeIn">Sign Up</a>
+  </section>

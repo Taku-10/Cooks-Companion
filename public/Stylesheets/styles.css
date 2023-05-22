@@ -14,46 +14,22 @@ body {
   max-width: 100%;
 }
 
+/* header {
+  background-color: #9CCB9A;
+  padding: 20px;
+  color: #fff;
+} */
+
+
+
+/* 
 header {
   background-color: #9CCB9A;
   padding: 20px;
   color: #fff;
-}
-
-.slogan {
-  font-size: 18px;
-  color: #555;
-  margin-bottom: 10px;
-}
+} */
 
 
-header {
-  background-color: #9CCB9A;
-  padding: 20px;
-  color: #fff;
-}
-
-.hero {
-  text-align: center;
-  padding: 40px 0;
-}
-
-.cta-btn {
-  display: inline-block;
-  background-color: #9CCB9A;
-  color: #fff;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-}
-
-.featured-recipes,
-.recipe-categories,
-.recipe-of-the-day,
-.top-rated-recipes,
-.cta-section {
-  padding: 40px 0;
-}
 
 .favorite-form {
   position: absolute;
@@ -75,16 +51,14 @@ header {
   color: #ff0000; 
 }
 
-.footer-body {
+/* .footer-body {
   position: relative;
   max-height: 100vh;
   margin: 0;
   padding-bottom: 1rem; 
-}
+} */
 
 .footer {
-
-
   background-color: #7DB484;;
   color: #333333;
   text-align: center;

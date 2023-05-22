@@ -1,12 +1,89 @@
+.card {
+  background-color: #9CCB9A;
+  color: #333333; 
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.features i {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.features h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.features p {
+  font-size: 16px;
+  color: #777;
+}
+
+.hero {
+  text-align: center;
+  /* padding: 40px 0; */
+}
+
+.slogan {
+  font-size: 18px;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.featured-recipes,
+.recipe-categories,
+.recipe-of-the-day,
+.top-rated-recipes,
+.cta-section {
+  padding: 40px 0;
+}
+/* .cta-btn {
+  display: inline-block;
+  background-color: #9CCB9A;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+} */
+
+.cta-btn {
+  display: inline-block;
+  background-color: #9CCB9A;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+  border: none;
+}
+
+.cta-btn:hover {
+  background-color: #7EA685;
+}
+
+.cta-btn.view-recipes {
+  background-color: #3D7747;
+  color: #fff;
+  border: none;
+}
+
+.cta-btn.view-recipes:hover {
+  background-color: #265634;
+}
+
+
+
+/* 
 .recipe-categories {
     background-color: #9CCB9A;
     padding: 50px 0;
-  }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
   }
   
   .recipe-cards {
@@ -39,16 +116,16 @@
   .recipe-card p {
     font-size: 16px;
     margin-bottom: 20px;
-  }
-  
+  } */
+/*   
   .btn-primary {
 
-        display: inline-block;
-        background-color: #9CCB9A;
-        color: #fff;
-        padding: 10px 20px;
-        text-decoration: none;
-        border-radius: 5px;
-      
-  }
+    display: inline-block;
+    background-color: #9CCB9A;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+  
+} */
   
