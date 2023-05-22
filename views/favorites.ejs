@@ -7,7 +7,11 @@
         <div class="col-md-3">
           <div class="card mb-4">
             <a href="/recipe/<%= favorite.id %>">
-              <img class="card-img-top" src="<%= favorite.image %>" alt="<%= favorite.title %>">
+              <%if (favorite.image) {%>
+                <img class="card-img-top" src="<%= favorite.image %>" alt="<%= favorite.title %>">
+                <%} else {%>
+                <img class="card-img-top" src="https://fakeimg.pl/640x360" alt="Placeholder Image">
+                <%}%>
             </a>
             <div class="card-body">
               <h5 class="card-title recipe-title"><%= favorite.title %></h5>

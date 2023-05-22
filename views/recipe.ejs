@@ -1,7 +1,11 @@
 <% layout("layout/boilerplate") %>
         <h1 class=""><%= recipe.title %></h1>
         <a href="/recipe/<%= recipe.id %>">
-            <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+            <%if (recipe.image) {%>
+                <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
+                <%} else {%>
+                <img class="card-img-top" src="https://fakeimg.pl/640x360" alt="Placeholder Image">
+                <%}%>
         </a>
         <h2 class="">Ingredients</h2>
         <ul>

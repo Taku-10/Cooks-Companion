@@ -1,10 +1,9 @@
 .card {
   background-color: #9CCB9A;
   color: #333333; 
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   text-align: center;
   transition: transform 0.3s ease-in-out;
-
 }
 
 .card:hover {
@@ -65,17 +64,17 @@
 }
 
 .cta-btn:hover {
-  background-color: #7EA685;
+  background-color: #6dab78;
 }
 
 .cta-btn.view-recipes {
-  background-color: #3D7747;
-  color: #fff;
+  background-color: #5c9c67;
+  color: #333;
   border: none;
 }
 
 .cta-btn.view-recipes:hover {
-  background-color: #265634;
+  background-color: #3e8b53;
 }
 
 
