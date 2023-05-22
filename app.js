@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const path = require("path");
 const methodOverride = require("method-override");
@@ -6,9 +10,12 @@ const { default: axios } = require("axios");
 const API_KEY = "5dbb93858dfa4e929904c9f51c65a5a3";
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
+const sendEmail = require("./helpers/sendEmail.js")
 const Recipe = require("./models/recipe.js");
 const passport = require("passport");
 const localStrategy = require("passport-local");
+const sgMail = require("@sendgrid/mail");
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const session = require("express-session");
 const flash = require("connect-flash");
 const {isLoggedIn, storeReturnTo} = require("./middleware/authenticate.js")
@@ -84,13 +91,27 @@ app.post("/register", async (req, res, next) => {
   const { email, username, password } = req.body;
   const user = new User({ email, username });
   const registeredUser = await User.register(user, password);
-  
+  console.log(email);
+  const subject = "Welcome to Cooks Companion";
+  const message = `<html>
+<body style="background-color: #9CCB9A; color: #333333;">
+    <p>Hello ${req.body.username},</p>
+    <p>Thank you for joining Cooks Companion! We're excited to have you as a part of our community. Your registration was successful, and now you have access to a world of delicious recipes and culinary inspiration.</p>
+    <p>Cooks Companion is your go-to recipe finder and cooking assistant. Whether you're a seasoned chef or just starting your culinary journey, we're here to simplify your cooking experience and make it enjoyable.</p>
+    <p>We're here to help you every step of the way, so feel free to explore and make the most of our platform. If you have any questions, feedback, or suggestions, don't hesitate to reach out to us. Our team is always ready to assist you.</p>
+    <p>Once again, welcome to Cooks Companion! We hope you have a fantastic cooking experience and discover many delicious recipes to enjoy. Get started by logging in to your account and start exploring the culinary world.</p>
+    <p>Happy cooking!</p>
+    <p>Best regards,<br><br>Cooks Companion Team</p>
+</body>
+</html>`;
+
+  await sendEmail(email, subject, message);
   req.logIn(registeredUser, (err) => {
     if (err) {
       console.log(err);
       res.redirect("/login");
     } else {
-      req.flash("success", "Welcome to Cooks Companion");
+      req.flash("success", "Welcome to Cooks companion");
       res.redirect("/recipes");
     }
   });
