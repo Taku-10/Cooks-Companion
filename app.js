@@ -343,6 +343,66 @@ app.post("/reset/:token", resetPasswordLimiter, async (req, res) => {
   res.redirect("/login");
 });
 
+app.get("/profile", isLoggedIn, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  res.render("profile", { user });
+});
+
+// This route will post the users updates to the form
+app.put("/profile/:id", isLoggedIn, async (req, res, next) => {
+  const userId = req.params.id;
+  const updatedUser = await User.findByIdAndUpdate(userId, req.body, {new: true, runValidators: true});
+  req.login(updatedUser, (err) => {
+    if (err) {
+      console.log(err);
+      return next(err);
+    }
+    req.flash("success", "Successfully updated your details");
+    res.redirect("/profile");
+  });
+});
+
+// Route to render the password change form
+app.get("/password", isLoggedIn, (req, res) => {
+  // Get the form data from the session
+  const formData = req.flash("form")[0];
+  res.render("changePassword", { formData });
+});
+
+app.post("/change-password", isLoggedIn, async (req, res) => {
+  const { oldPassword, newPassword, confirmNewPassword } = req.body;
+  const user = req.user;
+
+  // Check if the new password and confirmation match
+  if (newPassword !== confirmNewPassword) {
+    // Handle password mismatch error
+    req.flash("error", "Passwords do not match");
+
+    // Store the form data in the session to prepopulate the form
+    req.flash("form", { oldPassword, newPassword, confirmNewPassword });
+
+    return res.redirect("/password");
+  }
+
+  try {
+    // Use the `changePassword` method provided by Passport.js to change the user's password
+    await user.changePassword(oldPassword, newPassword);
+
+    // Redirect to success page
+    req.flash("success", "Password changed successfully");
+    return res.redirect("/profile");
+  } catch (err) {
+    // Handle password change error
+    req.flash("error", "Incorrect username and or password");
+
+    // Store the form data in the session to prepopulate the form
+    req.flash("form", { oldPassword, newPassword, confirmNewPassword });
+
+    return res.redirect("/password");
+  }
+});
+
+
 const port =  3000;
 app.listen(port, () => {
     console.log(`Listening for requests on port ${port}`);
