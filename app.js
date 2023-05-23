@@ -18,7 +18,7 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const session = require("express-session");
 const flash = require("connect-flash");
-const {isLoggedIn, storeReturnTo} = require("./middleware/authenticate.js")
+const {isLoggedIn, storeReturnTo, resetPasswordLimiter} = require("./middleware/authenticate.js")
 const app = express();
 
 const dbURL = "mongodb://127.0.0.1:27017/Recipes";
@@ -296,7 +296,7 @@ app.post("/forgot", async (req, res) => {
 });
 
 // Reset password page
-app.get("/reset/:token", async (req, res) => {
+app.get("/reset/:token", resetPasswordLimiter, async (req, res) => {
   const user = await User.findOne({
     resetPasswordToken: req.params.token,
     resetPasswordExpires: { $gt: Date.now() },
@@ -310,7 +310,7 @@ app.get("/reset/:token", async (req, res) => {
 });
 
 // Process reset password form
-app.post("/reset/:token", async (req, res) => {
+app.post("/reset/:token", resetPasswordLimiter, async (req, res) => {
   const user = await User.findOne({
     resetPasswordToken: req.params.token,
     resetPasswordExpires: { $gt: Date.now() },
