@@ -24,7 +24,7 @@
           Please enter a valid password.
         </div>
         <div class="forgot-password">
-          <a href="/forgot-password">Forgot password?</a>
+          <p><a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot password?</a></p>
         </div>
       </div>
       <button type="submit" class="btn btn-success">Login</button>
@@ -33,6 +33,37 @@
       <p>Not registered? <a href="/register">Register now</a></p>
     </div>
   </div>
-</body>
-</html>
+
+
+  <!-- Forgot Password Modal -->
+<div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="forgotPasswordModalLabel">Forgot Password</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/forgot" method="post" class="needs-validation" novalidate>
+
+          <div class="form-group mb-3">
+            <label class="form-label" for="email">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+            <div class="invalid-feedback">
+              Please enter your email address
+            </div>
+          </div>
+          <div class="d-grid gap-2">
+            <button class="btn btn-success btn-block mt-4">Reset Password</button>
+          </div>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 

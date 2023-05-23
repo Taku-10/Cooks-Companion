@@ -1,0 +1,26 @@
+<% layout("layout/boilerplate") %>
+<head>
+  <link rel="stylesheet" href="/Stylesheets/index.css">
+</head>
+<div class="text-center">
+    <div class="logo">
+      <img src="/Images/cookslight.jpg" alt="Recipe Finder Logo" width="150">
+    </div>
+  </div>
+  <div class="FormsContainer">
+    <h2>Reset Password</h2>
+          <form action="/reset/<%= token %>" method="post" class="needs-validation" novalidate>
+            <div class="form-group mb-3">
+                <label for="username">New Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your new password">
+                <div class="invalid-feedback">
+                  Please enter a valid password.
+                </div>
+              </div>
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-success btn-block mt-4">Reset Password</button>
+            </div>
+          </form>
+        </div>
+
+

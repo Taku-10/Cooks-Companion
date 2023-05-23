@@ -266,6 +266,83 @@ app.get("/about-us", (req, res) => {
   res.render("about");
 })
 
+// Process forgot password form
+app.post("/forgot", async (req, res) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    req.flash("error", "Incorrect or invalid email address");
+    return res.redirect("/login");
+  }
+
+  // Generate reset token
+  user.generateResetToken();
+  await user.save();
+  // Send reset email
+  const resetUrl = `http://localhost:3000/reset/${user.resetPasswordToken}`;
+  const subject = "Password reset request";
+  const message = `
+  <p>Dear ${user.username}</p>
+  <p>We received a request to reset your password. If you did not request this change, please ignore this email.</p>
+  <p>To reset your password, please click the link below: </p>
+  <a href="${resetUrl}">Reset password</a>
+  <p>The link will expire in 24 hours</p>
+  <p>If you have any questions or concerns, please contact our support team at support@cooks-companion.</p>
+  <hr>
+  <p>Best regards,</p>
+  <p>The Cooks Companion Team</p>,`;
+  await sendEmail(user.email, subject, message);
+  req.flash("success", "An email has been sent to your email address with further instructions.");
+  res.redirect("/login");
+});
+
+// Reset password page
+app.get("/reset/:token", async (req, res) => {
+  const user = await User.findOne({
+    resetPasswordToken: req.params.token,
+    resetPasswordExpires: { $gt: Date.now() },
+  });
+  if (!user) {
+    req.flash("error", "Password reset token is invalid or has expired.");
+    return res.redirect("/login");
+  }
+
+  res.render("reset", { token: req.params.token });
+});
+
+// Process reset password form
+app.post("/reset/:token", async (req, res) => {
+  const user = await User.findOne({
+    resetPasswordToken: req.params.token,
+    resetPasswordExpires: { $gt: Date.now() },
+  });
+  if (!user) {
+    req.flash("error", "Password reset token is invalid or has expired.");
+    return res.redirect("/forgot");
+  }
+
+  // Update password
+  await user.setPassword(req.body.password);
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpires = undefined;
+  await user.save();
+
+  const subject = "Password Reset Confirmation";
+  const message = `<p>Hello ${user.username} </p>
+  <p>Your password has been successfully reset</p>
+  <p>If you did this, you can safely disregard this email</p>
+  <p>If you didn't dot his, please go to the log in page and click "Forgot password" to reset your password</p>
+  <p>Thank you for using Cooks Companion</p>
+  <hr>
+  <p>Best regards,</p>
+  <p>The Cooks Companion Team</p>, 
+  `;
+
+  // Send confirmation email
+  await sendEmail(user.email, subject, message);
+  req.flash("success", "Your password has been successfully reset.");
+  res.redirect("/login");
+});
+
 const port =  3000;
 app.listen(port, () => {
     console.log(`Listening for requests on port ${port}`);
