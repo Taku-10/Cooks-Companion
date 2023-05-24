@@ -142,12 +142,21 @@ app.get("/logout", (req, res, next) => {
   });
 });
 
-app.get("/recipes", async(req, res) => {
-    numberOfRecipes = 5;
-    const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${numberOfRecipes}&apiKey=${API_KEY}`);
+const ITEMS_PER_PAGE = 8; // Number of recipes per page
+
+app.get("/recipes", async (req, res) => {
+  try {
+    const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${ITEMS_PER_PAGE}&apiKey=${API_KEY}`);
     const recipes = response.data.recipes;
-    res.render("index.ejs", {recipes})
-})
+
+    res.render("index.ejs", { recipes });
+  } catch (error) {
+    // Handle the error
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 
 app.post("/search", async(req, res) => {
     const number = 2;

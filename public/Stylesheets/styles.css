@@ -38,6 +38,32 @@ header {
 } */
 
 
+.cta-btn {
+  display: inline-block;
+  background-color: #9CCB9A;
+  color: #fff;
+  padding: 10px 30px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+  border: none;
+}
+
+.cta-btn:hover {
+  background-color: #6dab78;
+}
+
+.cta-btn.view-recipes {
+  background-color: #5c9c67;
+  color: #333;
+  border: none;
+}
+
+.cta-btn.view-recipes:hover {
+  background-color: #3e8b53;
+}
+
+
 
 .favorite-form {
   position: absolute;
@@ -76,4 +102,10 @@ header {
 .footer-link {
 color: #333333;
 text-decoration: underline;
+}
+
+
+.pag {
+  display: flex;
+    justify-content: flex-end;
 }
