@@ -16,7 +16,7 @@ router.get("/recipes", async (req, res) => {
     const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${ITEMS_PER_PAGE}&apiKey=${API_KEY}`);
     const recipes = response.data.recipes;
 
-    res.render("index.ejs", { recipes });
+    res.render("recipes/index.ejs", { recipes });
   } catch (error) {
     // Handle the error
     console.error(error);
@@ -31,7 +31,7 @@ router.post("/search", async(req, res) => {
     const response = await axios.get(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=${number}&apiKey=${API_KEY}`);
     const recipes = response.data;
     // Get similar ingredients
-    res.render("results.ejs", {recipes});
+    res.render("recipes/results.ejs", {recipes});
 })
 
 // app.post("/search", async(req, res) => {
@@ -49,7 +49,7 @@ router.get("/recipe/:id" , async(req, res) => {
     // Get similar recipes based on the ID
     const simRes = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar?apiKey=${API_KEY}`);
     const simRec = simRes.data;
-    res.render("recipe.ejs", {recipe, simRec});
+    res.render("recipes/recipe.ejs", {recipe, simRec});
 })
 
 
@@ -103,7 +103,7 @@ router.get("/recipes/favorites", isLoggedIn, async (req, res) => {
     );
 
     // Render the favorites.ejs template and pass the favorites data to it
-    res.render("favorites", { favorites: favoritesData });
+    res.render("recipes/favorites", { favorites: favoritesData });
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");

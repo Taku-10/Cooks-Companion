@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== "production") {
   
 
 router.get("/register", (req, res) => {
-    res.render("register")
+    res.render("user/register")
   })
 
 
@@ -51,7 +51,7 @@ router.post("/register", async (req, res, next) => {
   
  
   router.get("/login", (req, res) => {
-    res.render("login.ejs");
+    res.render("user/login.ejs");
   })
 
 /*This route will be used to log in the user by checking the provided details on the log in form correspond to the
@@ -120,7 +120,7 @@ router.post("/forgot", async (req, res) => {
       return res.redirect("/login");
     }
   
-    res.render("reset", { token: req.params.token });
+    res.render("user/reset", { token: req.params.token });
   });
   
   // Process reset password form
@@ -159,7 +159,7 @@ router.post("/forgot", async (req, res) => {
   
   router.get("/profile", isLoggedIn, async (req, res) => {
     const user = await User.findById(req.user._id);
-    res.render("profile", { user });
+    res.render("user/profile", { user });
   });
   
   // This route will post the users updates to the form
@@ -180,7 +180,7 @@ router.post("/forgot", async (req, res) => {
   router.get("/password", isLoggedIn, (req, res) => {
     // Get the form data from the session
     const formData = req.flash("form")[0];
-    res.render("changePassword", { formData });
+    res.render("user/changePassword", { formData });
   });
   
   router.post("/change-password", isLoggedIn, async (req, res) => {
