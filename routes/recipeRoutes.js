@@ -34,6 +34,7 @@ router.get("/recipes", async (req, res) => {
 //     res.render("recipes/results.ejs", {recipes});
 // })
 
+// Backend route
 router.post("/search", async (req, res) => {
   const { query, type, cuisine, diet, time } = req.body;
 
@@ -52,8 +53,30 @@ router.post("/search", async (req, res) => {
   const response = await axios.get("https://api.spoonacular.com/recipes/complexSearch", { params });
 
   const recipes = response.data.results;
-  res.render("recipes/results.ejs", { recipes });
+
+  const recipeDetailsPromises = recipes.map(recipe => fetchRecipeDetails(recipe.id));
+
+  const recipeDetails = await Promise.all(recipeDetailsPromises);
+
+  const recipesWithDetails = recipes.map((recipe, index) => ({
+    ...recipe,
+    details: recipeDetails[index]
+  }));
+
+  res.render("recipes/results.ejs", { recipes: recipesWithDetails });
 });
+
+// Fetch recipe details function
+async function fetchRecipeDetails(recipeId) {
+  try {
+    const response = await axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${API_KEY}`);
+    return response.data;
+  } catch (error) {
+    console.log("Error fetching recipe details:", error);
+    return null;
+  }
+}
+
 
 
 router.get("/recipe/:id" , async(req, res) => {

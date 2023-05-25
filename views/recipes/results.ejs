@@ -16,17 +16,13 @@
                 <img class="card-img-top" src="https://fakeimg.pl/640x360" alt="Placeholder Image">
               <% } %>
             </a>
-            <form action="/recipes/favorites/add" method="post" class="favorite-form">
-              <input type="hidden" name="recipeId" value="<%= recipe.id %>">
-              <button type="submit" class="favorite-button">
-                <i class="fa fa-heart"></i>
-              </button>
-            </form>
           </div>
           <div class="card-body">
             <h5 class="card-title recipe-title"><%= recipe.title %></h5>
-            <p class="card-text">Likes: <%= recipe.likes %></p>
-            <p class="card-text">Missed Ingredients: <%= recipe.missedIngredientCount %></p>
+            <% if (recipe.details) { %>
+              <p class="card-text">Servings: <%= recipe.details.servings %></p>
+              <p class="card-text">Ready in: <%= recipe.details.readyInMinutes %> minutes</p>
+            <% } %>
             <% if (recipe.substitutes && recipe.substitutes.length > 0) { %>
               <h6 class="card-subtitle mb-2 text-muted">Substitutes:</h6>
               <ul class="list-unstyled">
