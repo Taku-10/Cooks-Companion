@@ -3,7 +3,7 @@ if (process.env.NODE_ENV !== "production") {
   }
   const express = require("express");
   const router = express.Router({ mergeParams: true });
-  const API_KEY = "5dbb93858dfa4e929904c9f51c65a5a3";
+  const API_KEY = process.env.SPOONACULAR_API_KEY;
   const { default: axios } = require("axios");
   const User = require("../models/user");
   const {isLoggedIn, resetPasswordLimiter, storeReturnTo} = require("../middleware/authenticate");
@@ -25,21 +25,36 @@ router.get("/recipes", async (req, res) => {
 });
 
 
-router.post("/search", async(req, res) => {
-    const number = 2;
-    const {ingredients} = req.body;
-    const response = await axios.get(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=${number}&apiKey=${API_KEY}`);
-    const recipes = response.data;
-    // Get similar ingredients
-    res.render("recipes/results.ejs", {recipes});
-})
-
-// app.post("/search", async(req, res) => {
-//     const {query} = req.body;
-//     const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?${query}&apiKey=${API_KEY}`);
-//     const recipes = response.data.results;
-//     res.render("results.ejs", {recipes});
+// router.post("/search", async(req, res) => {
+//     const number = 2;
+//     const {ingredients} = req.body;
+//     const response = await axios.get(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=${number}&apiKey=${API_KEY}`);
+//     const recipes = response.data;
+//     // Get similar ingredients
+//     res.render("recipes/results.ejs", {recipes});
 // })
+
+router.post("/search", async (req, res) => {
+  const { query, type, cuisine, diet, time } = req.body;
+
+  const params = {
+    query: query,
+    type: type || "",
+    cuisine: cuisine || "",
+    diet: diet || "",
+    apiKey: API_KEY
+  };
+
+  if (time !== "") {
+    params.maxReadyTime = time;
+  }
+
+  const response = await axios.get("https://api.spoonacular.com/recipes/complexSearch", { params });
+
+  const recipes = response.data.results;
+  res.render("recipes/results.ejs", { recipes });
+});
+
 
 router.get("/recipe/:id" , async(req, res) => {
     const {id} = req.params;
@@ -140,3 +155,5 @@ router.post("/recipes/favorites/remove", isLoggedIn, async (req, res) => {
 
 
 module.exports = router;
+
+

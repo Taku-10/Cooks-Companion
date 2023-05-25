@@ -2,10 +2,17 @@
 <div class="container">
   <form class="search-form" action="/search" method="post">
     <div class="input-group">
-      <input class="form-control form-control-md" type="text" name="ingredients" id="ingredients" placeholder="Search by ingredients separated by commas">
-      <button type="submit" class="btn btn-success">Search</button>
+      <input class="form-control form-control-md" type="text" name="query" id="query" placeholder="Search for recipe">
+      <div class="input-group-append">
+        <button type="submit" class="btn btn-success">Search</button>
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#filterModal">
+          <i class="fas fa-filter"></i> <!-- Font Awesome filter icon -->
+        </button>
+      </div>
     </div>
   </form>
+  
+  
   <h1 class="popular-recipes-heading mt-4">Popular Recipes</h1>
   <div class="row">
     <% recipes.forEach(recipe => { %>
@@ -47,3 +54,77 @@
     </ul>
   </nav>
 </div>
+
+
+<!-- Create the filter modal -->
+<div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="filterModalLabel">Filter Options</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="search-form" action="/search" method="post">
+          <div class="mb-3">
+            <label for="type" class="form-label">Type:</label>
+            <select class="form-select" name="type" id="type">
+              <option value="">Select Type</option>
+              <option value="main course">Main Course</option>
+              <option value="side dish">Side Dish</option>
+              <option value="dessert">Dessert</option>
+              <option value="appetizer">Appetizer</option>
+              <option value="salad">Salad</option>
+              <option value="snack">Snack</option>
+              <option value="soup">Soup</option>
+              <option value="breakfast">Breakfast</option>
+              <option value="marinade">Marinade</option>
+            </select>
+          </div>
+          <!-- <div class="mb-3">
+            <label for="ingredients" class="form-label">Ingredients:</label>
+            <input class="form-control" type="text" name="ingredients" id="ingredients" placeholder="Enter ingredients separated by comma">
+          </div> -->
+          <div class="mb-3">
+            <label for="cuisine" class="form-label">Cuisine:</label>
+            <select class="form-select" name="cuisine" id="cuisine">
+              <option value="">Select Cuisine</option>
+              <option value="African">African</option>
+              <option value="Asian">Asian</option>
+              <option value="American">American</option>
+              <option value="Chinese">Chinese</option>
+              <option value="French">French</option>
+              <option value="Indian">Indian</option>
+              <option value="Italian">Italian</option>
+              <option value="Jewish">Jewish</option>
+              <option value="Mexican">Mexican</option>
+              <option value="Thai">Thai</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="diet" class="form-label">Diet:</label>
+            <select class="form-select" name="diet" id="diet">
+              <option value="">Select Diet</option>
+              <option value="Gluten Free">Gluten Free</option>
+              <option value="Ketogenic">Ketogenic</option>
+              <option value="Vegetarian">Vegetarian</option>
+              <option value="Vegan">Vegan</option>
+              <option value="Paleo">Paleo</option>
+            </select>
+          </div>
+            <div class="mb-3">
+              <label for="time" class="form-label">Max Ready Time (minutes):</label>
+              <input class="form-control" type="number" name="time" id="time" min="5" placeholder="Enter maximum ready time">
+            </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+</script>

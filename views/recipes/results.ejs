@@ -9,12 +9,12 @@
       <div class="col-md-3 mb-4">
         <div class="card">
           <div class="position-relative">
-            <a href="recipe/<%=recipe.id %>">
-              <%if (recipe.image) {%>
+            <a href="recipe/<%= recipe.id %>">
+              <% if (recipe.image) { %>
                 <img class="card-img-top" src="<%= recipe.image %>" alt="<%= recipe.title %>">
-                <%} else {%>
+              <% } else { %>
                 <img class="card-img-top" src="https://fakeimg.pl/640x360" alt="Placeholder Image">
-                <%}%>
+              <% } %>
             </a>
             <form action="/recipes/favorites/add" method="post" class="favorite-form">
               <input type="hidden" name="recipeId" value="<%= recipe.id %>">
@@ -42,5 +42,3 @@
     </div>
   <% } %>
 </div>
-
-
