@@ -7,42 +7,30 @@ if (process.env.NODE_ENV !== "production") {
   const { default: axios } = require("axios");
   const User = require("../models/user");
   const {isLoggedIn, resetPasswordLimiter, storeReturnTo} = require("../middleware/authenticate");
+  const catchAsync = require("../helpers/catchAsync");
+  const fetchRecipeDetails = require("../helpers/recipeDetails");
 
 
-const ITEMS_PER_PAGE = 8; // Number of recipes per page
 
-router.get("/recipes", async (req, res) => {
-  try {
-    const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${ITEMS_PER_PAGE}&apiKey=${API_KEY}`);
+
+router.get("/recipes", catchAsync(async (req, res) => {
+    const Recipes_Per_Page = 16; // Number of recipes per page
+    const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${Recipes_Per_Page}&apiKey=${API_KEY}`);
     const recipes = response.data.recipes;
-
     res.render("recipes/index.ejs", { recipes });
-  } catch (error) {
-    // Handle the error
-    console.error(error);
-    res.status(500).send("Internal Server Error");
-  }
-});
+  
+}));
 
 
-// router.post("/search", async(req, res) => {
-//     const number = 2;
-//     const {ingredients} = req.body;
-//     const response = await axios.get(`https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=${number}&apiKey=${API_KEY}`);
-//     const recipes = response.data;
-//     // Get similar ingredients
-//     res.render("recipes/results.ejs", {recipes});
-// })
-
-// Backend route
-router.post("/search", async (req, res) => {
+router.post("/search", catchAsync(async (req, res) => {
   const { query, type, cuisine, diet, time } = req.body;
-
+  const numberOfResults = 16;
   const params = {
     query: query,
     type: type || "",
     cuisine: cuisine || "",
     diet: diet || "",
+    number: numberOfResults,
     apiKey: API_KEY
   };
 
@@ -64,22 +52,10 @@ router.post("/search", async (req, res) => {
   }));
 
   res.render("recipes/results.ejs", { recipes: recipesWithDetails });
-});
-
-// Fetch recipe details function
-async function fetchRecipeDetails(recipeId) {
-  try {
-    const response = await axios.get(`https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${API_KEY}`);
-    return response.data;
-  } catch (error) {
-    console.log("Error fetching recipe details:", error);
-    return null;
-  }
-}
+}));
 
 
-
-router.get("/recipe/:id" , async(req, res) => {
+router.get("/recipe/:id" , catchAsync(async(req, res) => {
     const {id} = req.params;
     const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
     const recipe = response.data;
@@ -88,11 +64,10 @@ router.get("/recipe/:id" , async(req, res) => {
     const simRes = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar?apiKey=${API_KEY}`);
     const simRec = simRes.data;
     res.render("recipes/recipe.ejs", {recipe, simRec});
-})
+}));
 
 
-router.post("/recipes/favorites/add", isLoggedIn, async (req, res) => {
-  try {
+router.post("/recipes/favorites/add", isLoggedIn, catchAsync(async (req, res) => {
     // Retrieve the currently logged-in user's ID from the session data
     const userId = req.user._id;
 
@@ -110,15 +85,11 @@ router.post("/recipes/favorites/add", isLoggedIn, async (req, res) => {
 
     req.flash("success", "Recipe added to favorites");
     res.redirect("/recipes");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
-  }
-});
+ 
+}));
 
 
-router.get("/recipes/favorites", isLoggedIn, async (req, res) => {
-  try {
+router.get("/recipes/favorites", isLoggedIn, catchAsync(async (req, res) => {
     // Retrieve the currently logged-in user's ID from the session data
     const userId = req.user._id;
 
@@ -142,15 +113,12 @@ router.get("/recipes/favorites", isLoggedIn, async (req, res) => {
 
     // Render the favorites.ejs template and pass the favorites data to it
     res.render("recipes/favorites", { favorites: favoritesData });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
-  }
-});
+}));
+
 
 // Define the /favorites/remove route to remove a recipe from favorites
-router.post("/recipes/favorites/remove", isLoggedIn, async (req, res) => {
-  try {
+router.post("/recipes/favorites/remove", isLoggedIn, catchAsync(async (req, res) => {
+
     // Retrieve the currently logged-in user's ID from the session data
     const userId = req.user._id;
 
@@ -170,11 +138,8 @@ router.post("/recipes/favorites/remove", isLoggedIn, async (req, res) => {
     await user.save();
     req.flash("success", "Recipe removed")
     res.redirect("/recipes");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
-  }
-});
+ 
+}));
 
 
 module.exports = router;

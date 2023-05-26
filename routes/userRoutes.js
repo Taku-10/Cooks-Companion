@@ -11,6 +11,7 @@ if (process.env.NODE_ENV !== "production") {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const crypto = require("crypto");
   const rateLimit = require("express-rate-limit");
+  const catchAsync = require("../helpers/catchAsync");
   
 
 router.get("/register", (req, res) => {
@@ -19,7 +20,7 @@ router.get("/register", (req, res) => {
 
 
 /*This route will be used to register a user thus submitting the user's details to the database*/
-router.post("/register", async (req, res, next) => {
+router.post("/register", catchAsync(async (req, res, next) => {
     const { email, username, password } = req.body;
     const user = new User({ email, username });
     const registeredUser = await User.register(user, password);
@@ -47,7 +48,7 @@ router.post("/register", async (req, res, next) => {
         res.redirect("/recipes");
       }
     });
-  });
+  }));
   
  
   router.get("/login", (req, res) => {
@@ -81,7 +82,7 @@ router.post("/register", async (req, res, next) => {
 
 
 // Process forgot password form
-router.post("/forgot", async (req, res) => {
+router.post("/forgot", catchAsync(async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
       req.flash("error", "Incorrect or invalid email address");
@@ -107,10 +108,10 @@ router.post("/forgot", async (req, res) => {
     await sendEmail(user.email, subject, message);
     req.flash("success", "An email has been sent to your email address with further instructions.");
     res.redirect("/login");
-  });
+  }));
   
   // Reset password page
-  router.get("/reset/:token", resetPasswordLimiter, async (req, res) => {
+  router.get("/reset/:token", resetPasswordLimiter, catchAsync(async (req, res) => {
     const user = await User.findOne({
       resetPasswordToken: req.params.token,
       resetPasswordExpires: { $gt: Date.now() },
@@ -121,10 +122,10 @@ router.post("/forgot", async (req, res) => {
     }
   
     res.render("user/reset", { token: req.params.token });
-  });
+  }));
   
   // Process reset password form
-  router.post("/reset/:token", resetPasswordLimiter, async (req, res) => {
+  router.post("/reset/:token", resetPasswordLimiter, catchAsync(async (req, res) => {
     const user = await User.findOne({
       resetPasswordToken: req.params.token,
       resetPasswordExpires: { $gt: Date.now() },
@@ -155,15 +156,15 @@ router.post("/forgot", async (req, res) => {
     await sendEmail(user.email, subject, message);
     req.flash("success", "Your password has been successfully reset.");
     res.redirect("/login");
-  });
+  }));
   
-  router.get("/profile", isLoggedIn, async (req, res) => {
+  router.get("/profile", isLoggedIn, catchAsync(async (req, res) => {
     const user = await User.findById(req.user._id);
     res.render("user/profile", { user });
-  });
+  }));
   
   // This route will post the users updates to the form
-  router.put("/profile/:id", isLoggedIn, async (req, res, next) => {
+  router.put("/profile/:id", isLoggedIn, catchAsync(async (req, res, next) => {
     const userId = req.params.id;
     const updatedUser = await User.findByIdAndUpdate(userId, req.body, {new: true, runValidators: true});
     req.login(updatedUser, (err) => {
@@ -174,7 +175,7 @@ router.post("/forgot", async (req, res) => {
       req.flash("success", "Successfully updated your details");
       res.redirect("/profile");
     });
-  });
+  }));
   
   // Route to render the password change form
   router.get("/password", isLoggedIn, (req, res) => {

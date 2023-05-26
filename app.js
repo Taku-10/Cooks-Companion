@@ -21,6 +21,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const session = require("express-session");
 const flash = require("connect-flash");
 const {isLoggedIn, storeReturnTo, resetPasswordLimiter} = require("./middleware/authenticate.js")
+const ExpressError = require("./helpers/ExpressError.js");
 const app = express();
 
 const dbURL = "mongodb://127.0.0.1:27017/Recipes";
@@ -87,6 +88,16 @@ app.get("/about-us", (req, res) => {
 app.use("/", userRoutes);
 app.use("/", recipeRoutes);
 
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError("Page Not found", 404));
+})
+
+app.use((err, req, res, next) => {
+  const {statusCode=500} = err;
+  if (!err.message) err.message = "Oh No, Something Went Wrong!"
+  res.status(statusCode).render("error", {err});
+});
 
 const port =  3000;
 app.listen(port, () => {
