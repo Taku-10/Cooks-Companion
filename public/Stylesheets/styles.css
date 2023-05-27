@@ -11,6 +11,19 @@ body {
   transition: transform 0.3s ease-in-out;
 }
 
+.card-text {
+  font-size: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+
+
+
+.card-img-top {
+  height: 180px;
+  object-fit: cover;
+}
+
 .navbar-nav .nav-link {
   color: #333333; 
 }

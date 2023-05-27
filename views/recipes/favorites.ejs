@@ -1,7 +1,7 @@
 <% layout("layout/boilerplate") %>
 <div class="container">
-  <h1 class="mt-4">Favorites</h1>
   <% if (favorites.length > 0) { %>
+    <h1 class="mt-4 text-center mb-4">Your Favorites</h1>
     <div class="row">
       <% favorites.forEach((favorite) => { %>
         <div class="col-md-3">
@@ -10,13 +10,13 @@
               <%if (favorite.image) {%>
                 <img class="card-img-top" src="<%= favorite.image %>" alt="<%= favorite.title %>">
                 <%} else {%>
-                <img class="card-img-top" src="https://fakeimg.pl/640x360" alt="Placeholder Image">
+                  <img class="card-img-top" src="http://via.placeholder.com/640x400" alt="Placeholder Image">
                 <%}%>
             </a>
             <div class="card-body">
-              <h5 class="card-title recipe-title"><%= favorite.title %></h5>
-              <p class="card-text">Ready in <%= favorite.readyInMinutes %> minutes</p>
-              <p class="card-text">Servings: <%= favorite.servings %></p>
+              <h5 class="card-title recipe-title mb-3"><i class="fas fa-utensils"></i> <%= favorite.title %></h5>
+              <p class="card-text"><i class="fas fa-clock"></i> Ready in <%= favorite.readyInMinutes %> minutes</p>
+              <p class="card-text"><i class="fas fa-users"></i> Servings: <%= favorite.servings %></p>
               <form action="/recipes/favorites/remove" method="post" class="mt-auto">
                 <input type="hidden" name="recipeId" value="<%= favorite.id %>">
                 <button type="submit" class="btn btn-danger w-100 pb-1">
@@ -29,7 +29,9 @@
       <% }); %>
     </div>
   <% } else { %>
-    <p>No favorites added yet.</p>
+    <div class="alert alert-info text-center" style="color: #333;" role="alert">
+      No favorites yet
+    </div>
   <% } %>
 </div>
 

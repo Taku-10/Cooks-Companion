@@ -1,9 +1,11 @@
 <% layout("layout/boilerplate") %>
 <div class="container">
-  <h1 class="text-center">Recipes</h1>
   <% if (recipes.length === 0) { %>
-    <p class="text-center">No recipes found.</p>
+    <div class="alert alert-info text-center" style="color: #333;" role="alert">
+      No recipes found
+    </div>
   <% } else { %>
+    <h1 class="text-center mb-4">Search results</h1>
     <div class="row">
       <% recipes.forEach(recipe => { %>
       <div class="col-md-3 mb-4">
@@ -13,15 +15,15 @@
               <% if (recipe.image) { %>
                 <img class="card-img-top" src="<%= recipe.image %>" alt="<%= recipe.title %>">
               <% } else { %>
-                <img class="card-img-top" src="https://fakeimg.pl/640x360" alt="Placeholder Image">
+                <img class="card-img-top" src="http://via.placeholder.com/640x400" alt="Placeholder Image">
               <% } %>
             </a>
           </div>
           <div class="card-body">
-            <h5 class="card-title recipe-title"><%= recipe.title %></h5>
+            <h5 class="card-title recipe-title mb-3"><i class="fas fa-utensils"></i> <%= recipe.title %></h5>
             <% if (recipe.details) { %>
-              <p class="card-text">Servings: <%= recipe.details.servings %></p>
-              <p class="card-text">Ready in: <%= recipe.details.readyInMinutes %> minutes</p>
+              <p class="card-text"><i class="fas fa-clock"></i> Ready in <%= recipe.details.readyInMinutes %> minutes</p>
+              <p class="card-text"><i class="fas fa-users"></i> Servings: <%= recipe.details.servings %></p>
             <% } %>
             <% if (recipe.substitutes && recipe.substitutes.length > 0) { %>
               <h6 class="card-subtitle mb-2 text-muted">Substitutes:</h6>
