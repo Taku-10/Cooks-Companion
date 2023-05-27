@@ -20,6 +20,7 @@ const sgMail = require("@sendgrid/mail");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const session = require("express-session");
 const flash = require("connect-flash");
+const mongoSanitize = require('express-mongo-sanitize');
 const {isLoggedIn, storeReturnTo, resetPasswordLimiter} = require("./middleware/authenticate.js")
 const ExpressError = require("./helpers/ExpressError.js");
 const app = express();
@@ -44,7 +45,7 @@ app.set("views", path.join(__dirname, "/views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use(mongoSanitize())
 
 const secret =  "thisisnottheactualsecret"
 
@@ -60,7 +61,6 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 24 * 7,
   }
 }));
-
 
 
 app.use(passport.initialize());
