@@ -136,7 +136,7 @@ router.post("/recipes/favorites/remove", isLoggedIn, catchAsync(async (req, res)
     // Save the updated user document
     await user.save();
     req.flash("success", "Recipe removed")
-    res.redirect("/recipes");
+    res.redirect("recipes/favorites");
  
 }));
 

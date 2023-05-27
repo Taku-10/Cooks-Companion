@@ -45,7 +45,7 @@ router.post("/register", catchAsync(async (req, res, next) => {
         res.redirect("/login");
       } else {
         req.flash("success", "Welcome to Cooks companion");
-        res.redirect("/recipes");
+        res.redirect("/");
       }
     });
   }));
@@ -66,7 +66,7 @@ router.post("/register", catchAsync(async (req, res, next) => {
     }),
     (req, res) => {
       req.flash("success", "Welcome back to Cooks Companion");
-      const redirectUrl = res.locals.returnTo || "/recipes";
+      const redirectUrl = res.locals.returnTo || "/";
       res.redirect(redirectUrl);
     }
   );
@@ -76,7 +76,7 @@ router.post("/register", catchAsync(async (req, res, next) => {
     req.logout((err) => {
       if (err) return next(err);
       req.flash("success", "Goodbye!");
-      res.redirect("/recipes");
+      res.redirect("/");
     });
   });
 
@@ -93,7 +93,7 @@ router.post("/forgot", catchAsync(async (req, res) => {
     user.generateResetToken();
     await user.save();
     // Send reset email
-    const resetUrl = `http://localhost:3000/reset/${user.resetPasswordToken}`;
+    const resetUrl = `https://stormy-caverns-33924.herokuapp.com/reset/${user.resetPasswordToken}`;
     const subject = "Password reset request";
     const message = `
     <p>Dear ${user.username}</p>
