@@ -23,9 +23,11 @@ const flash = require("connect-flash");
 const mongoSanitize = require('express-mongo-sanitize');
 const {isLoggedIn, storeReturnTo, resetPasswordLimiter} = require("./middleware/authenticate.js")
 const ExpressError = require("./helpers/ExpressError.js");
+const MongoStore = require('connect-mongo');
 const app = express();
 
-const dbURL = "mongodb://127.0.0.1:27017/Recipes";
+const dbURL = process.env.DB_URL || "mongodb://127.0.0.1:27017/Recipes";
+const secret = process.env.SECRET || "thisisjustadevelopmentbackupsecret";
 
 mongoose.connect(dbURL, {
   useNewUrlParser: true,
@@ -47,9 +49,20 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize())
 
-const secret =  "thisisnottheactualsecret"
+
+const store = MongoStore.create({
+  mongoUrl: dbURL,
+  secret,
+  touchAfter: 24 * 60 * 60
+  
+})
+
+store.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e)
+})
 
 app.use(session({
+  store,
   name: "session",
   secret,
   resave: false,
