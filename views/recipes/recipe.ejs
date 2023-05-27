@@ -1,32 +1,49 @@
 <% layout("layout/boilerplate") %>
-        <h1 class=""><%= recipe.title %></h1>
-        <a href="/recipe/<%= recipe.id %>">
-            <%if (recipe.image) {%>
-                <img src="<%= recipe.image %>" alt="<%= recipe.title %>">
-                <%} else {%>
-                <img class="card-img-top" src="https://fakeimg.pl/640x360" alt="Placeholder Image">
-                <%}%>
-        </a>
-        <h2 class="">Ingredients</h2>
-        <ul>
-            <% recipe.extendedIngredients.forEach(ingredient => {%>
-                <li><%= ingredient.original %></li>
-                <% })%>
-        </ul>
-        <h2>Instructions</h2>
-        <ol>
-            <%recipe.analyzedInstructions[0].steps.forEach(step => {%>
-                <li><%= step.step %></li>
-            <%})%>
-        </ol>
-
-        <h2>Similar Recipes</h2>
-    <ul>
-    <% simRec.forEach(similarRecipe => { %>
-        <li>
-            <a href="/recipe/<%= similarRecipe.id %>">
-            <%= similarRecipe.title %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3">
+      <h1 class="display-4 text-center mb-3"><%= recipe.title %></h1>
+      <a href="/recipe/<%= recipe.id %>">
+        <% if (recipe.image) { %>
+          <img src="<%= recipe.image %>" alt="<%= recipe.title %>" class="img-fluid mb-4" style="width: 684.91px; border-radius: 0.4rem; border: 0.5px solid #333;">
+        <% } else { %>
+          <img src="https://fakeimg.pl/640x360" alt="Placeholder Image" class="img-fluid mb-4">
+        <% } %>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3 green-bg">
+      <h2 class="mt-5">Ingredients</h2>
+      <ul class="list-group green-bg">
+        <% recipe.extendedIngredients.forEach(ingredient => { %>
+          <li class="list-group-item green-bg"><%= ingredient.original %></li>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3 green-bg">
+      <h2 class="mt-5">Instructions</h2>
+      <ol class="list-group green-bg">
+        <% recipe.analyzedInstructions[0].steps.forEach(step => { %>
+          <li class="list-group-item green-bg"><%= step.step %></li>
+        <% }); %>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3 green-bg">
+      <h2 class="mt-5">Similar Recipes</h2>
+      <ul class="list-group green-bg">
+        <% simRec.forEach(similarRecipe => { %>
+          <li class="list-group-item green-bg">
+            <a href="/recipe/<%= similarRecipe.id %>" class="similar-recipe-link">
+              <%= similarRecipe.title %>
             </a>
-        </li>
-  <% }); %>
-    </ul>
+          </li>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -53,6 +53,22 @@ header {
   background-color: #6dab78;
 }
 
+.green-bg {
+  background-color: #9CCB9A !important;
+  color: #555;
+  border-color: #555 !important;
+}
+
+.similar-recipe-link {
+  color: #555;
+  text-decoration: none;
+}
+
+.similar-recipe-link:hover {
+  text-decoration: underline;
+  color: #333;
+}
+
 .cta-btn.view-recipes {
   background-color: #5c9c67;
   color: #333;

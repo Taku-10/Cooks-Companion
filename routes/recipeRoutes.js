@@ -11,8 +11,6 @@ if (process.env.NODE_ENV !== "production") {
   const fetchRecipeDetails = require("../helpers/recipeDetails");
 
 
-
-
 router.get("/recipes", catchAsync(async (req, res) => {
     const Recipes_Per_Page = 16; // Number of recipes per page
     const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${Recipes_Per_Page}&apiKey=${API_KEY}`);
@@ -61,7 +59,8 @@ router.get("/recipe/:id" , catchAsync(async(req, res) => {
     const recipe = response.data;
 
     // Get similar recipes based on the ID
-    const simRes = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar?apiKey=${API_KEY}`);
+    const number = 5;
+    const simRes = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar?number=${number}&apiKey=${API_KEY}`);
     const simRec = simRes.data;
     res.render("recipes/recipe.ejs", {recipe, simRec});
 }));
