@@ -81,6 +81,14 @@
               <option value="marinade">Marinade</option>
             </select>
           </div>
+          <div class="mb-3">
+            <label for="includeIngredients" class="form-label">Include Ingredients</label>
+            <input type="text" class="form-control" name="includeIngredients" placeholder="Comma-separated list of ingredients in the recipes">
+          </div>
+          <div class="mb-3">
+            <label for="excludeIngredients" class="form-label">Exclude Ingredients</label>
+            <input type="text" class="form-control" name="excludeIngredients" placeholder="Comma-separated list of ingredients to not include">
+          </div>
           <!-- <div class="mb-3">
             <label for="ingredients" class="form-label">Ingredients:</label>
             <input class="form-control" type="text" name="ingredients" id="ingredients" placeholder="Enter ingredients separated by comma">
@@ -113,11 +121,11 @@
             </select>
           </div>
             <div class="mb-3">
-              <label for="time" class="form-label">Max Ready Time (minutes):</label>
+              <label for="time" class="form-label">Max Cooking Time (minutes):</label>
               <input class="form-control" type="number" name="time" id="time" min="5" placeholder="Enter maximum ready time">
             </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-primary">Apply Filters</button>
+            <button type="submit" class="btn btn-success">Apply Filters</button>
           </div>
         </form>
       </div>

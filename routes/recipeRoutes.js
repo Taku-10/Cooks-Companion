@@ -21,11 +21,13 @@ router.get("/recipes", catchAsync(async (req, res) => {
 
 
 router.post("/search", catchAsync(async (req, res) => {
-  const { query, type, cuisine, diet, time } = req.body;
+  const { query, type, includeIngredients, excludeIngredients, cuisine, diet, time, } = req.body;
   const numberOfResults = 25;
   const params = {
     query: query,
     type: type || "",
+    includeIngredients: includeIngredients || "",
+    excludeIngredients: excludeIngredients || "",
     cuisine: cuisine || "",
     diet: diet || "",
     number: numberOfResults,
@@ -48,7 +50,8 @@ router.post("/search", catchAsync(async (req, res) => {
     ...recipe,
     details: recipeDetails[index]
   }));
-
+  console.log(req.body);
+  console.log(params);
   res.render("recipes/results.ejs", { recipes: recipesWithDetails });
 }));
 
