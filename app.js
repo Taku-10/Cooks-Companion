@@ -7,7 +7,6 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const { default: axios } = require("axios");
-const API_KEY = process.env.SPOONACULAR_API_KEY;
 const mongoose = require("mongoose");
 const User = require("./models/user.js");
 const userRoutes = require("./routes/userRoutes.js");

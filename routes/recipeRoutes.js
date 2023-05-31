@@ -3,67 +3,67 @@ if (process.env.NODE_ENV !== "production") {
   }
   const express = require("express");
   const router = express.Router({ mergeParams: true });
-  const API_KEY = process.env.SPOONACULAR_API_KEY;
+
   const { default: axios } = require("axios");
   const User = require("../models/user");
   const {isLoggedIn, resetPasswordLimiter, storeReturnTo} = require("../middleware/authenticate");
+  const rotateAPIKey = require("../middleware/spoonacular")
+
   const catchAsync = require("../helpers/catchAsync");
   const fetchRecipeDetails = require("../helpers/recipeDetails");
 
+  // Route using the rotated API key
+router.get('/recipes', rotateAPIKey, catchAsync(async (req, res) => {
+  const Recipes_Per_Page = 10; // Number of recipes per page
+  const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${Recipes_Per_Page}&apiKey=${req.API_KEY}`);
+  const recipes = response.data.recipes;
+  res.render('recipes/index.ejs', { recipes });
+}));
 
-router.get("/recipes", catchAsync(async (req, res) => {
-    const Recipes_Per_Page = 10; // Number of recipes per page
-    const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${Recipes_Per_Page}&apiKey=${API_KEY}`);
-    const recipes = response.data.recipes;
-    res.render("recipes/index.ejs", { recipes });
+    router.post("/search", rotateAPIKey, catchAsync(async (req, res) => {
+    const { query, type, includeIngredients, excludeIngredients, cuisine, diet, time, } = req.body;
+    const numberOfResults = 25;
+    const params = {
+      query: query,
+      type: type || "",
+      includeIngredients: includeIngredients || "",
+      excludeIngredients: excludeIngredients || "",
+      cuisine: cuisine || "",
+      diet: diet || "",
+      number: numberOfResults,
+      apiKey: req.API_KEY
+    };
   
-}));
-
-
-router.post("/search", catchAsync(async (req, res) => {
-  const { query, type, includeIngredients, excludeIngredients, cuisine, diet, time, } = req.body;
-  const numberOfResults = 25;
-  const params = {
-    query: query,
-    type: type || "",
-    includeIngredients: includeIngredients || "",
-    excludeIngredients: excludeIngredients || "",
-    cuisine: cuisine || "",
-    diet: diet || "",
-    number: numberOfResults,
-    apiKey: API_KEY
-  };
-
-  if (time !== "") {
-    params.maxReadyTime = time;
-  }
-
-  const response = await axios.get("https://api.spoonacular.com/recipes/complexSearch", { params });
-
-  const recipes = response.data.results;
-
-  const recipeDetailsPromises = recipes.map(recipe => fetchRecipeDetails(recipe.id));
-
-  const recipeDetails = await Promise.all(recipeDetailsPromises);
-
-  const recipesWithDetails = recipes.map((recipe, index) => ({
-    ...recipe,
-    details: recipeDetails[index]
+    if (time !== "") {
+      params.maxReadyTime = time;
+    }
+  
+    const response = await axios.get("https://api.spoonacular.com/recipes/complexSearch", { params });
+  
+    const recipes = response.data.results;
+  
+    const recipeDetailsPromises = recipes.map(recipe => fetchRecipeDetails(recipe.id));
+  
+    const recipeDetails = await Promise.all(recipeDetailsPromises);
+  
+    const recipesWithDetails = recipes.map((recipe, index) => ({
+      ...recipe,
+      details: recipeDetails[index]
+    }));
+    console.log(req.body);
+    console.log(params);
+    res.render("recipes/results.ejs", { recipes: recipesWithDetails });
   }));
-  console.log(req.body);
-  console.log(params);
-  res.render("recipes/results.ejs", { recipes: recipesWithDetails });
-}));
+  
 
-
-router.get("/recipe/:id" , catchAsync(async(req, res) => {
+  router.get("/recipe/:id", rotateAPIKey, catchAsync(async(req, res) => {
     const {id} = req.params;
-    const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
+    const response = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${req.API_KEY}`);
     const recipe = response.data;
 
     // Get similar recipes based on the ID
     const number = 4;
-    const simRes = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar?number=${number}&apiKey=${API_KEY}`);
+    const simRes = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar?number=${number}&apiKey=${req.API_KEY}`);
     const simRec = simRes.data;
     res.render("recipes/recipe.ejs", {recipe, simRec});
 }));
@@ -91,18 +91,20 @@ router.post("/recipes/favorites/add", isLoggedIn, catchAsync(async (req, res) =>
 }));
 
 
-router.get("/recipes/favorites", isLoggedIn, catchAsync(async (req, res) => {
+router.get("/recipes/favorites", rotateAPIKey, isLoggedIn, catchAsync(async (req, res) => {
     // Retrieve the currently logged-in user's ID from the session data
     const userId = req.user._id;
 
     const user = await User.findById(userId);
+
+    const API_KEY = req.API_KEY;
 
     // Make API calls to retrieve recipe details for each favorite
     const favoritesData = await Promise.all(
       user.favorites.map(async (favoriteId) => {
         // Make an API call to get recipe details using the favoriteId
         const response = await axios.get(
-          `https://api.spoonacular.com/recipes/${favoriteId}/information?apiKey=${API_KEY}`,
+          `https://api.spoonacular.com/recipes/${favoriteId}/information?apiKey=${req.API_KEY}`,
          
         );
         
@@ -121,6 +123,7 @@ router.get("/recipes/favorites", isLoggedIn, catchAsync(async (req, res) => {
 // Define the /favorites/remove route to remove a recipe from favorites
 router.post("/recipes/favorites/remove", isLoggedIn, catchAsync(async (req, res) => {
 
+    const API_KEY = req.API_KEY;
     // Retrieve the currently logged-in user's ID from the session data
     const userId = req.user._id;
 
