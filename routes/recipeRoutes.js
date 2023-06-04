@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== "production") {
 
   // Route using the rotated API key
 router.get('/recipes', rotateAPIKey, catchAsync(async (req, res) => {
-  const Recipes_Per_Page = 10; // Number of recipes per page
+  const Recipes_Per_Page = 17; // Number of recipes per page
   const response = await axios.get(`https://api.spoonacular.com/recipes/random?number=${Recipes_Per_Page}&apiKey=${req.API_KEY}`);
   const recipes = response.data.recipes;
   res.render('recipes/index.ejs', { recipes });
@@ -22,7 +22,7 @@ router.get('/recipes', rotateAPIKey, catchAsync(async (req, res) => {
 
     router.post("/search", rotateAPIKey, catchAsync(async (req, res) => {
     const { query, type, includeIngredients, excludeIngredients, cuisine, diet, time, } = req.body;
-    const numberOfResults = 25;
+    const numberOfResults = 48;
     const params = {
       query: query,
       type: type || "",
@@ -62,7 +62,7 @@ router.get('/recipes', rotateAPIKey, catchAsync(async (req, res) => {
     const recipe = response.data;
 
     // Get similar recipes based on the ID
-    const number = 4;
+    const number = 5;
     const simRes = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar?number=${number}&apiKey=${req.API_KEY}`);
     const simRec = simRes.data;
     res.render("recipes/recipe.ejs", {recipe, simRec});
