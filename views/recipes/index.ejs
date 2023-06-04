@@ -23,7 +23,7 @@
               <%if (recipe.image) {%>
                 <img class="card-img-top" src="<%= recipe.image %>" alt="<%= recipe.title %>">
                 <%} else {%>
-                <img class="card-img-top" src="http://via.placeholder.com/640x400" alt="Placeholder Image">
+                  <img class="card-img-top" src="../Images/placeholder.png" alt="Placeholder Image">
                 <%}%>
             </a>
             <form action="/recipes/favorites/add" method="post" class="favorite-form">
